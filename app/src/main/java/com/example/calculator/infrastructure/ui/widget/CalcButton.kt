@@ -1,4 +1,4 @@
-package com.example.calculator.ui.widget
+package com.example.calculator.infrastructure.ui.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

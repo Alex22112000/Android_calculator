@@ -9,8 +9,12 @@ class CalculatorService(
     private val calculator: ICalculator
 ) : ICalculatorService {
 
-    override fun calculate(expression: String): Double {
-        return calculator.calculate(parser.parse(expression))
+    override suspend fun calculate(expression: String): Double? {
+        return try {
+            calculator.calculate(parser.parse(expression))
+        } catch (e: Exception){
+            null
+        }
     }
 
 }

@@ -1,5 +1,7 @@
-package com.example.calculator.ui.widget
+package com.example.calculator.infrastructure.ui.widget
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.calculator.state.CalculatorViewModel
+import com.example.calculator.infrastructure.state.CalculatorViewModel
 
 @Preview
 @Composable
@@ -25,8 +27,7 @@ fun OutputSection(
         val state by calculator.calculatorState.collectAsState()
 
         LazyColumn(
-                //horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
         ) {
                 item {
                         Text(

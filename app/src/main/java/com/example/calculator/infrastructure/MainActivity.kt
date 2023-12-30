@@ -16,7 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.calculator.R
+import com.example.calculator.infrastructure.data.SharedHistory
+import com.example.calculator.infrastructure.navigation.Navigation
 import com.example.calculator.infrastructure.ui.widget.InputSection
 import com.example.calculator.infrastructure.ui.widget.OutputSection
 import com.example.calculator.infrastructure.ui.widget.SwitchSection
@@ -24,22 +28,23 @@ import com.example.calculator.infrastructure.ui.widget.SwitchSection
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SharedHistory.init(applicationContext)
         setContent {
-            Calculator()
+            Navigation()
         }
     }
 }
 
 @Preview
 @Composable
-fun Calculator(){
+fun Calculator(navController: NavHostController = rememberNavController()){
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colorResource(id = R.color.scaffoldBgColor)),
             verticalArrangement = Arrangement.SpaceEvenly
         ){
-            SwitchSection()
+            SwitchSection(navController = navController)
             OutputSection()
             InputSection()
         }

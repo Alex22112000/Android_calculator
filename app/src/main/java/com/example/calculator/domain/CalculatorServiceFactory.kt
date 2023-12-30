@@ -1,5 +1,6 @@
-package com.example.calculator.application
+package com.example.calculator.domain
 
+import com.example.calculator.domain.api.ICalculatorService
 import com.example.calculator.domain.postfix.PostfixCalculator
 import com.example.calculator.domain.postfix.PostfixExpressionParser
 import com.example.calculator.infrastructure.data.CalculatorOnline

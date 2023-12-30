@@ -1,24 +1,22 @@
 package com.example.calculator.infrastructure.data
 
 import android.util.Log
-import com.example.calculator.application.ICalculatorService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import com.example.calculator.domain.Result
+import com.example.calculator.domain.api.ICalculatorService
 import org.json.JSONObject
-import java.io.BufferedOutputStream
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.InputStreamReader
-import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
 class CalculatorOnline : ICalculatorService {
+
+    private val history = SharedHistory
+
     override suspend fun calculate(expression: String): Double? {
-        val url = URL("http://192.168.0.195:8080/api/calculations")
+        val url = URL("http://192.168.0.129:8080/api/calculations")
         val openedConnection = url.openConnection() as HttpURLConnection
         openedConnection.requestMethod = "POST"
         openedConnection.setRequestProperty(
@@ -40,6 +38,7 @@ class CalculatorOnline : ICalculatorService {
             val response = reader.readText()
             Log.d("Success", response)
             reader.close()
+            history.add(Result(expression, response.toDouble().toString()))
             return response.toDouble()
         } catch (e: Exception) {
             e.printStackTrace()

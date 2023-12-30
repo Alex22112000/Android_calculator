@@ -2,12 +2,13 @@ package com.example.calculator.infrastructure.state
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.calculator.application.CalculatorServiceFactory
-import com.example.calculator.application.CalculatorServiceType
+import com.example.calculator.domain.CalculatorHistory
+import com.example.calculator.domain.CalculatorServiceFactory
+import com.example.calculator.domain.CalculatorServiceType
+import com.example.calculator.domain.Result
+import com.example.calculator.domain.api.ICalculatorHistory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,12 +19,14 @@ data class CalculatorState (
     val input: String = "",
     val output: String = "",
     val isOnline: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val history: List<Result> = emptyList()
 )
 
-class CalculatorViewModel : ViewModel() {
+object CalculatorViewModel : ViewModel() {
     private val _calculatorState = MutableStateFlow(CalculatorState())
     val calculatorState: StateFlow<CalculatorState> = _calculatorState.asStateFlow()
+    private val calculatorHistory: ICalculatorHistory = CalculatorHistory()
 
     fun delete(){
         if (calculatorState.value.input.isEmpty()) return
@@ -67,6 +70,12 @@ class CalculatorViewModel : ViewModel() {
     fun changeMod(){
         _calculatorState.update {
                 state -> state.copy(isOnline = !state.isOnline)
+        }
+    }
+
+    fun getHistory(){
+        _calculatorState.update {
+            state -> state.copy(history = calculatorHistory.getHistory())
         }
     }
 }
